@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using AutoBuyer.Logic;
+﻿using System.Collections.ObjectModel;
+using AutoBuyer.Logic.Connections;
 
 namespace AutoBuyer.UI
 {
-    public class MainViewModel : IBuyerListener, IPortfolioListener
+    public class MainViewModel
     {
-        private readonly List<IUserRequestListener> _listeners;
+        private readonly string _buyerName;
+        private readonly IWarehouseConnection _connection;
 
         public ObservableCollection<BuyerViewModel> Buyers { get; }
         public Command StartBuyingCommand { get; private set; }
@@ -16,38 +15,22 @@ namespace AutoBuyer.UI
         public int NewItemMaximumPrice { get; set; }
         public int NumberToBuy { get; set; }
 
-        public MainViewModel(BuyerPortfolio portfolio)
+        public MainViewModel(string buyerName, IWarehouseConnection connection)
         {
+            _buyerName = buyerName;
+            _connection = connection;
+
             StartBuyingCommand = new Command(Join);
             Buyers = new ObservableCollection<BuyerViewModel>();
-            _listeners = new List<IUserRequestListener>();
-            portfolio.AddPortfolioListener(this);
         }
 
         private void Join()
         {
-            foreach (IUserRequestListener listener in _listeners)
-            {
-                listener.StartBuying(NewItemId, NewItemMaximumPrice, NumberToBuy);
-            }
-        }
+            IStockItemConnection itemConnection = _connection.ConnectToItem(NewItemId, _buyerName);
+            var viewModel = new BuyerViewModel(NewItemId, NewItemMaximumPrice, NumberToBuy,
+                _buyerName, itemConnection);
 
-        public void BuyerStateChanged(BuyerSnapshot snapshot)
-        {
-            BuyerViewModel viewModel = Buyers.Single(x => x.ItemId == snapshot.ItemId);
-            viewModel.UpdateState(snapshot);
-        }
-
-        public void BuyerAdded(Buyer buyer)
-        {
-            var viewModel = new BuyerViewModel(buyer.Snapshot.ItemId, buyer.Snapshot);
             Buyers.Add(viewModel);
-            buyer.AddBuyerListener(this);
-        }
-
-        public void AddUserRequestListener(IUserRequestListener listenter)
-        {
-            _listeners.Add(listenter);
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace AutoBuyer.Logic
+namespace AutoBuyer.Logic.Connections
 {
     public interface IWarehouseConnection
     {

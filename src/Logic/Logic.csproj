@@ -41,27 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuyerLauncher.cs" />
-    <Compile Include="BuyerPortfolio.cs" />
-    <Compile Include="BuyerSnapshot.cs" />
-    <Compile Include="BuyerState.cs" />
-    <Compile Include="IBuyerListener.cs" />
-    <Compile Include="IBuyerPortfolio.cs" />
-    <Compile Include="IPortfolioListener.cs" />
-    <Compile Include="IStockItemConnection.cs" />
-    <Compile Include="IStockEventListener.cs" />
-    <Compile Include="IStockItem.cs" />
-    <Compile Include="IUserRequestListener.cs" />
-    <Compile Include="IWarehouse.cs" />
-    <Compile Include="IWarehouseConnection.cs" />
-    <Compile Include="Buyer.cs" />
+    <Compile Include="Domain\BuyerSnapshot.cs" />
+    <Compile Include="Domain\BuyerState.cs" />
+    <Compile Include="Domain\StockCommand.cs" />
+    <Compile Include="Connections\IStockItemConnection.cs" />
+    <Compile Include="Connections\IWarehouseConnection.cs" />
+    <Compile Include="Domain\Buyer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StockEvent.cs" />
-    <Compile Include="StockItem.cs" />
-    <Compile Include="StockItemConnection.cs" />
-    <Compile Include="StockMessageTranslator.cs" />
-    <Compile Include="Warehouse.cs" />
-    <Compile Include="WarehouseConnection.cs" />
+    <Compile Include="Domain\StockEvent.cs" />
+    <Compile Include="Connections\StockItemConnection.cs" />
+    <Compile Include="Connections\WarehouseConnection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AutoBuyer.Logic
+namespace AutoBuyer.Logic.Domain
 {
     public class StockEvent
     {
@@ -51,6 +51,21 @@ namespace AutoBuyer.Logic
             return new StockEvent(eventType, fields);
         }
 
+        public static StockEvent Close()
+        {
+            return From("Event: CLOSE;");
+        }
+
+        public static StockEvent Price(int currentPrice, int numberInStock)
+        {
+            return From($"Event: PRICE; CurrentPrice: {currentPrice}; NumberInStock: {numberInStock};");
+        }
+
+        public static StockEvent Purchase(string buyerName, int numberSold)
+        {
+            return From($"Event: PURCHASE; BuyerName: {buyerName}; NumberSold: {numberSold};");
+        }
+
         private static StockEventType GetEventType(Dictionary<string, string> fields)
         {
             if (!fields.ContainsKey("Event"))
@@ -73,7 +88,7 @@ namespace AutoBuyer.Logic
                 string[] data = pair.Split(new[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
                 fields.Add(data[0].Trim(), data[1].Trim());
             }
-            
+
             return fields;
         }
     }

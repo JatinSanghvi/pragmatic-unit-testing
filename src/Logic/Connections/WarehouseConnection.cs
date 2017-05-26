@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AutoBuyer.Logic
+namespace AutoBuyer.Logic.Connections
 {
     public class WarehouseConnection : IWarehouseConnection
     {
