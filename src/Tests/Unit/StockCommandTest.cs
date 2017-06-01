@@ -2,7 +2,7 @@
 using Should;
 using Xunit;
 
-namespace Tests
+namespace Tests.Unit
 {
     public class StockCommandTest
     {

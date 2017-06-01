@@ -4,16 +4,16 @@ namespace AutoBuyer.Logic.Domain
 {
     public class Buyer
     {
-        private readonly string _buyerName;
-        private readonly int _maximumPrice;
-        private readonly int _numberToBuy;
+        public string BuyerName { get; }
+        public int MaximumPrice { get; }
+        public int NumberToBuy { get; }
         public BuyerSnapshot Snapshot { get; private set; }
 
         public Buyer(string buyerName, int maximumPrice, int numberToBuy)
         {
-            _buyerName = buyerName;
-            _numberToBuy = numberToBuy;
-            _maximumPrice = maximumPrice;
+            BuyerName = buyerName;
+            NumberToBuy = numberToBuy;
+            MaximumPrice = maximumPrice;
             Snapshot = BuyerSnapshot.Joining();
         }
 
@@ -42,7 +42,7 @@ namespace AutoBuyer.Logic.Domain
 
         private StockCommand ProcessPriceEvent(int currentPrice, int numberInStock)
         {
-            if (currentPrice > _maximumPrice)
+            if (currentPrice > MaximumPrice)
             {
                 Snapshot = Snapshot.Monitoring(currentPrice, numberInStock);
                 return StockCommand.None();
@@ -50,18 +50,18 @@ namespace AutoBuyer.Logic.Domain
             else
             {
                 Snapshot = Snapshot.Buying(currentPrice, numberInStock);
-                int numberToBuy = Math.Min(numberInStock, _numberToBuy);
+                int numberToBuy = Math.Min(numberInStock, NumberToBuy);
                 return StockCommand.Buy(currentPrice, numberToBuy);
             }
         }
 
         private StockCommand ProcessPurchaseEvent(string buyerName, int numberSold)
         {
-            if (buyerName == _buyerName)
+            if (buyerName == BuyerName)
             {
                 Snapshot = Snapshot.Bought(numberSold);
 
-                if (Snapshot.BoughtSoFar >= _numberToBuy)
+                if (Snapshot.BoughtSoFar >= NumberToBuy)
                 {
                     Snapshot = Snapshot.Closed();
                 }

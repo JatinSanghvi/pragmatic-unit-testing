@@ -1,4 +1,5 @@
 ﻿using AutoBuyer.Logic.Connections;
+using AutoBuyer.Logic.Database;
 using AutoBuyer.Logic.Domain;
 
 namespace AutoBuyer.UI
@@ -13,14 +14,18 @@ namespace AutoBuyer.UI
 
         private readonly Buyer _buyer;
         private readonly IStockItemConnection _connection;
+        private readonly BuyerRepository _repository;
 
         public BuyerViewModel(string itemId, int maximumPrice, int numberToBuy,
-                string buyerName, IStockItemConnection connection)
+                string buyerName, IStockItemConnection connection, BuyerRepository repository)
         {
             ItemId = itemId;
             _buyer = new Buyer(buyerName, maximumPrice, numberToBuy);
             _connection = connection;
+            _repository = repository;
+
             _connection.MessageReceived += StockMessageReceived;
+            _repository.Save(ItemId, _buyer);
         }
 
         private void StockMessageReceived(string message)
@@ -32,6 +37,8 @@ namespace AutoBuyer.UI
             {
                 _connection.SendMessage(stockCommand.ToString());
             }
+
+            _repository.Save(ItemId, _buyer);
 
             Notify(nameof(CurrentPrice));
             Notify(nameof(NumberInStock));

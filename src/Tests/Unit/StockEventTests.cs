@@ -3,7 +3,7 @@ using AutoBuyer.Logic.Domain;
 using Should;
 using Xunit;
 
-namespace Tests
+namespace Tests.Unit
 {
     public class StockEventTests
     {

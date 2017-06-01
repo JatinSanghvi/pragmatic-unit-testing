@@ -35,6 +35,10 @@
       <HintPath>..\..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Moq, Version=4.7.10.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Moq.4.7.10\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
@@ -69,15 +73,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuyerTests.cs" />
-    <Compile Include="StockCommandTest.cs" />
-    <Compile Include="StockEventTests.cs" />
+    <Compile Include="Integration\Tests.cs" />
+    <Compile Include="Unit\BuyerTests.cs" />
+    <Compile Include="Integration\BuyerViewModelTests.cs" />
+    <Compile Include="Unit\StockCommandTest.cs" />
+    <Compile Include="Unit\StockEventTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\DatabaseHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Logic\Logic.csproj">
       <Project>{295669FE-9169-4BEB-9ACF-0134A9350903}</Project>
       <Name>Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UI\UI.csproj">
+      <Project>{1ef70091-8109-4df8-9820-5a40f5e9a3dd}</Project>
+      <Name>UI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
